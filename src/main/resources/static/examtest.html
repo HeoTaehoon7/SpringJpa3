@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+   <h2>Exam Test</h2>
+   <a href="/exam">Get 방식 호출</a><br>
+   <form action="/exam" method="POST">
+     <input type="submit" value="POST 방식 호출" />
+   </form>
+   <!-- form tag method ="get/post" 만 가능 -->
+   <form action="/exam" method="DELETE">
+     <input type="submit" value="DELETE 방식 호출" />
+   </form>
+   
+   <hr />
+   <div>
+     <select id="method">
+       <option value="get">GET</option>
+       <option value="post">POST</option>
+       <option value="delete">DELETE</option>
+       <option value="patch">PATCH</option>
+       <option value="put">PUT</option>
+     </select> 
+     <input type="url" id="url" value="http://localhost:8080/exam"/>
+     <button id="send">Send</button>
+     <button id="getXML">Get XML</button>
+     <h2>Rest API 를 위해서는 Javascript 로 코딩해야한다 </h2>
+     <div id="result"></div>
+   </div> 
+   
+   <script>
+     const  sendEl = document.querySelector('#send')
+     sendEl.onclick = function() {
+    	 let   method    =  document.querySelector('#method>option:checked').value;
+    	 let   url       =  document.querySelector('#url').value
+    	 const resultEl  =  document.querySelector('#result')
+    	 // rest api를 xhr 방식으로 불러온다 : 페이지 디오없이 ajax 방식으로 호출
+    	 fetch( url, {
+    		 method : method
+    	 })
+    	   .then(response => response.text() ) // 일반 text 나 xml
+    	   // .then(response => response.json() )
+    	   // response.xml() 함수는 없다 response.text() 로 받아서 변환해서 사용
+    	   .then( data => {
+    		   console.log(data)
+    		   alert( data )  
+    		   resultEl.innerHTML = data;
+    	   } )
+    	   .then(error => console.error(error) )
+    	  //alert(method)
+     }     
+     
+     // xml 불러오기
+     const  getXMLEl = document.querySelector('#getXML')
+     getXMLEl.onclick = function() {
+    	 let   url      = '/data.xml'
+    	 const resultEl = document.querySelector('#result') 
+    	 fetch(url)
+    	  .then(response => response.text())
+    	  .then(text     => {
+    		  alert(text)
+    		  // text -> XML Docudment 객체로 변환
+    		  const parser = new DOMParser();
+    		  const xmlDoc = parser.parseFromString(text, "application/xml")
+    		  
+    		  const toEl       = xmlDoc.getElementsByTagName('to')[0]
+    		  const fromEl     = xmlDoc.getElementsByTagName('from')[0]
+    		  const headingEl  = xmlDoc.getElementsByTagName('heading')[0]
+    		  const bodyEl     = xmlDoc.getElementsByTagName('body')[0]
+    		      		  
+    		  let   html   = `<ul>
+    		     <li>to : ${ toEl.innerHTML }</li>
+    		     <li>from : ${ fromEl.innerHTML }</li>
+    		     <li>heading : ${ headingEl.innerHTML }</li>
+    		     <li>body : ${ bodyEl.innerHTML }</li>
+    		  </ul>`  
+    		      		  
+    		  resultEl.innerHTML = html;
+    	  })
+    	  .then(error => console.error(error) )
+     }
+    
+   </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

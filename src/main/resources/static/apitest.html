@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+	<h2>Article Rest Api Test</h2>
+	<ul>
+	  <li><a id="getlist"   href="/api/articles">목록조회</a></li>
+	  <li><a id="get"       href="/api/articles/2">한개 조회</a></li>
+	  <li><a id="post"      href="/api/articles/">추가</a></li>
+	  <li><a id="patch"     href="/api/articles/2">수정</a></li>
+	  <li><a id="delete"    href="/api/articles/2">삭제</a></li>
+	  ㄴ
+	</ul>
+	
+	<h3>결과</h3>
+	<div id="result" style="margin-bottom:150px" ></div>
+	
+	<!-- script 영역  ECMA Script 6 -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	
+	<script>
+	   function makeTable( list ) {
+		   let  table   = '<table class="table table-striped mx-auto" style="width:90%;">'
+		   table       += '<tr class="table-dark">'
+		   table       += '<th>#</th>'
+		   table       += '<th>Title</th>'
+		   table       += '<th>Content</th>'		   
+		   table       += '</tr>'
+		   
+		   list.forEach( function( article ) {
+			   table       += '<tr>'
+			   table       += `<td>${ article.id      }</td>`
+			   table       += `<td>${ article.title   }</td>`
+			   table       += `<td>${ article.content }</td>`			   
+			   table       += '</tr>'
+		   })
+		   
+		   table       += '</table>';
+		   return  table;
+	   }
+	</script>
+	<script>
+	   //  a tag  클릭시 동작
+	   const  aEls     =  document.querySelectorAll('a')   //  a tag 뱌열
+	   const  resultEl =  document.querySelector('#result');
+	   aEls.forEach(function( a ) {
+		   a.onclick = function( event ) {
+			   
+			   event.preventDefault();   // a tag 의 기본이벤트(href 로 이동)를 취소  
+			   event.stopPropagation();  // 이벤트 버블링을 중지
+			   
+			   console.log(a);
+			   //alert(a.innerHTML)
+			   switch(a.id) {
+			   case 'getlist':    
+				   // api controller 실행데이터 받아온다(fetch)
+				   fetch( a.href )
+				     .then( response => response.json() )
+				     .then( list     => {
+				    	 console.log(list)
+				    	 resultEl.innerHTML = makeTable( list )
+				     }  )
+				     .then(error => console.log(error) )
+				   break;			  
+			   }
+		   }
+	   })
+	
+	</script>
+	
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,33 @@
+{{>layouts/header }}
+  
+<!-- 내용 부분 -->
+<form class="container" action="/article/Write" method="POST"  >
+  <div class="mb-3">
+    <label for="title" class="form-label">제목</label>
+    <input type="text" class="form-control" id="title" name="title" >
+  </div>
+  <div class="mb-3">
+    <label for="content" class="form-label">내용</label>
+    <textarea name="content" class="form-control" id="content" rows="4"></textarea> 
+  </div> 
+  <button type="submit" class="btn btn-primary">Submit</button>
+  <a href="/" class="btn btn-info">Home</a>
+  <a href="/article/List" class="btn btn-success">목록</a>
+</form>
+  
+{{>layouts/footer }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
