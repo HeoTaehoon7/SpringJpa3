@@ -42,12 +42,6 @@
 		    </div>		    
 		  </div>
 		  <div class="row mb-3">
-		    <label for="id2"    class="col-form-label col-sm-2">수정할 아이디</label>
-		    <div class="col-sm-10">
-		      <input type="text"  class="form-control" id="id2" >
-		    </div>  		    
-		  </div>
-		  <div class="row mb-3">
 		    <label for="title"   class="col-form-label col-sm-2">제목</label>
 		    <div class="col-sm-10">
 		       <input type="text"   class="form-control" id="title" >
@@ -134,8 +128,7 @@
 	   //  a tag  클릭시 동작
 	   const  aEls      =  document.querySelectorAll('a')   //  a tag 뱌열
 	   const  resultEl  =  document.querySelector('#result');
-	   const  idEl      =  document.querySelector('#id');
-	   const  id2El     =  document.querySelector('#id2');
+	   const  idEl      =  document.querySelector('#id');	
 	   const  titleEl   =  document.querySelector('#title');
 	   const  contentEl =  document.querySelector('#content');
 	   
@@ -199,7 +192,7 @@
 	   //console.log('jajaja')
 	   divEl.ondblclick = function( e ) {
 		   //console.dir(e)  // e.target == td
-		   let  tr          =  e.target.parentNode
+		   let  tr          =  e.target.parentElement // ==  e.target.parentNode
 		   let  tds         =  tr.childNodes
 		   idEl.value       =  tds[0].innerHTML
 		   titleEl.value    =  tds[1].innerHTML
