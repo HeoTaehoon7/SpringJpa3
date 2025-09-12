@@ -4,10 +4,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.Builder;
 
 // 실제 데이터베아스에 테이블을 생성해준다
 // import jakarta.peristence.
-@Entity           // db table  에 대응하는 클래스 : 애노테이션    
+@Entity           // db table  에 대응하는 클래스 : 애노테이션   
+@Builder
 public class Article {
 	@Id                         // primary key
 	@GeneratedValue             // sequence : 번호 자동증가 

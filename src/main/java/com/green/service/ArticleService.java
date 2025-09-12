@@ -9,6 +9,9 @@ import com.green.dto.Article;
 import com.green.dto.ArticleDto;
 import com.green.repository.ArticleRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ArticleService {
 	
@@ -32,6 +35,14 @@ public class ArticleService {
 		Article   saved    =  articleRepository.save( article );
 		
 		return  saved; 
+	}
+
+	public Article getOne(Long id) {
+		
+		// db id 로 조회
+	    Article  article  = articleRepository.findById(id).orElse(null);
+		log.info(  "article:" + article ); 
+		return   article;
 	}
 	
 }

@@ -38,7 +38,7 @@
 		    <!-- col-sm-2 : 2/12, col-sm-10 : 10/12 -->
 		    <label for="id"    class="col-form-label col-sm-2">아이디</label>
 		    <div class="col-sm-10">
-		       <input type="text" class="form-control" id="id" >
+		       <input type="number" class="form-control" id="id" >
 		    </div>		    
 		  </div>
 		  <div class="row mb-3">
@@ -59,7 +59,7 @@
 		     class="list-group-item list-group-item-action" aria-current="true">
 		    목록조회
 		  </a>
-		  <a href="/api/articles/2" id="get" 
+		  <a href="/api/articles" id="get" 
 		     class="list-group-item list-group-item-action">
 		     한개 조회
 		  </a>
@@ -67,7 +67,7 @@
 		     class="list-group-item list-group-item-action">
 		     추가
 		  </a>
-		  <a href="/api/articles"id="patch"
+		  <a href="/api/articles" id="patch"
 		     class="list-group-item list-group-item-action">
 		     수정
 		  </a>
@@ -144,8 +144,10 @@
 			   console.log(a);
 			   //alert(a.innerHTML)
 			   switch(a.id) {
-			   case 'getlist':     // 목록조회 
-				   // api controller 실행데이터 받아온다(fetch)
+			   
+			   // 목록조회
+			   case 'getlist':      
+				   // api. controller 실행데이터 받아온다(fetch)
 			        fetch( a.href  )
 				     .then( response => response.json() )
 				     .then( list     => {
@@ -154,8 +156,31 @@
 				     }  )
 				     .then(error => console.log(error) )
 				   break;
-				   
-			   case 'post':     // 추가
+			
+			   // 한개 조회
+			   case 'get':				  
+				   let  id  =  idEl.value
+				   if( id.trim() == '' ) {
+					   alert('검색할 id 를 입력하세요')
+					   break;
+				   }
+				   // /api/articles/2  
+				   fetch( a.href + "/" + id)  
+				     .then((response) => response.json())
+				     .then(( article ) => {
+				    	 console.log( article )
+				    	 idEl.value        =  article.id;
+				    	 titleEl.value     =  article.title;
+				    	 contentEl.value   =  article.content;				    	 
+				     })
+				     .then(error => {
+				    	 console.log(error)
+				    	 alert('자료가 없심~~!!')
+				     });
+				   break;
+			
+			   // 추가	   
+			   case 'post':    
 			       if( titleEl.value.trim() == ''  ) {
 			    	   alert('제목을 입력하세요')
 			    	   break;   
@@ -176,7 +201,8 @@
 						   textClear();
 						   aEls[0].click()
 					   });  // 추가완료
-				   break;	   
+				   break;	
+					   
 			   } // switch end
 		   } // a.onclick end
 		   
