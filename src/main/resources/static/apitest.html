@@ -23,11 +23,14 @@
 	    border-radius : 10px;
 	    padding: 10px; 
 	}
+	
+	tr       { background: '';  }
+	tr:hover { background: aqua;  }
 
 </style>
 </head>
 <body>
-	<h2>Article Rest Api Test</h2>
+	<h2 class="bg-primary text-white fw-bold mt-4 mb-3">Article Rest Api Test</h2>
 	<div id="container">
 	  <div id="box1">
         <form>
@@ -41,7 +44,7 @@
 		  <div class="row mb-3">
 		    <label for="id2"    class="col-form-label col-sm-2">수정할 아이디</label>
 		    <div class="col-sm-10">
-		      <input type="text"  class="form-control col-sm-10" id="id2" >
+		      <input type="text"  class="form-control" id="id2" >
 		    </div>  		    
 		  </div>
 		  <div class="row mb-3">
@@ -84,7 +87,7 @@
 	  </div>
 	</div>
 	
-	<h3>결과</h3>
+	<h3 class="bg-secondary text-white border-bottom pb-2">결과</h3>
 	<div id="result" style="margin-bottom:150px" ></div>
 	
 	<!-- script 영역  ECMA Script 6 -->
@@ -118,6 +121,13 @@
 		   })
 		   
 	   }
+	   
+	   function  textClear() {
+		   let els  =  document.querySelectorAll('[class="form-control"]') 
+		   els.forEach( (el) => {
+			   el.value = ''
+		   }) 
+	   }
 	</script>
 	
 	<script>
@@ -130,6 +140,7 @@
 	   const  contentEl =  document.querySelector('#content');
 	   
 	   aEls.forEach(function( a ) {
+		   // a tag click 이벤트 
 		   a.onclick = function( event ) {
 			   activeClear( aEls )	   // 모든 a tag 에 active class 제거
 			   a.classList.add('active')	 // class="" -> js classList 		  
@@ -145,7 +156,7 @@
 			        fetch( a.href  )
 				     .then( response => response.json() )
 				     .then( list     => {
-				    	 console.log(list)
+				    //	 console.log(list)
 				    	 resultEl.innerHTML = makeTable( list )
 				     }  )
 				     .then(error => console.log(error) )
@@ -168,15 +179,33 @@
 					 })
 					   .then((response) => response.json())
 					   .then((json) => {
-						   console.log(json)
-						   // textClear();
+					//	   console.log(json)
+						   textClear();
 						   aEls[0].click()
 					   });  // 추가완료
 				   break;	   
-			   }
-		   }
-	   })
+			   } // switch end
+		   } // a.onclick end
+		   
+	   }) // aEls.foreach end
 	
+	   
+	   // #result 안에 tr을 클릭하면 undefinded error 
+	   // js 동적 생성 이벤트 호출
+	   // <a>목록조회</a> 를 클릭한 후에  table 이 생성된다
+	   // 해결책은 조상Element  에 이벤ㅂ를 등록한다
+	   const  divEl  = document.querySelector('#result')	   
+	   //console.dir( divEl )
+	   //console.log('jajaja')
+	   divEl.ondblclick = function( e ) {
+		   //console.dir(e)  // e.target == td
+		   let  tr          =  e.target.parentNode
+		   let  tds         =  tr.childNodes
+		   idEl.value       =  tds[0].innerHTML
+		   titleEl.value    =  tds[1].innerHTML
+		   contentEl.value  =  tds[2].innerHTML
+	   }
+	   
 	</script>
 	
 </body>
