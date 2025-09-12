@@ -66,7 +66,7 @@ public class ArticleController {
 		// 해결책 1
 		//List<Article> articleList = (List<Article>) articleRepository.findAll();
 		
-		// 해결책 2 : 비추
+		// 해결책 2 : 비추 
 		// Iterable<Article>  articleEntityList = articleRepository.findAll();
 				
 		// 해결책 3 : 우리가 사용할 방법
