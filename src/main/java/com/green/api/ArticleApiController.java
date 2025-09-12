@@ -28,6 +28,7 @@ public class ArticleApiController {
 	// 결과 data 로 출력 : JSON 기본값
 	@GetMapping(value="/api/articles",
 			produces = "application/json;charset=UTF-8" )
+			// produces = "application/xml;charset=UTF-8" )			
 	        // produces = MediaType.APPLICATION_JSON_VALUE )
 	public  List<Article> list() {
 		
@@ -35,6 +36,12 @@ public class ArticleApiController {
 		log.info("list", list );
 		System.out.println(list);
 		return list;
+		
+		/*
+		XmlMapper xmlMapper = new XmlMapper();
+	    List<Article> list = articleService.getList();
+	    return xmlMapper.writeValueAsString(list);
+	    */
 		
 	}
 	

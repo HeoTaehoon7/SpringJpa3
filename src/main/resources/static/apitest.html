@@ -131,7 +131,7 @@
 	   
 	   aEls.forEach(function( a ) {
 		   a.onclick = function( event ) {
-			   activeClear( aEls )	
+			   activeClear( aEls )	   // 모든 a tag 에 active class 제거
 			   a.classList.add('active')	 // class="" -> js classList 		  
 			   
 			   event.preventDefault();   // a tag 의 기본이벤트(href 로 이동)를 취소  
@@ -142,7 +142,7 @@
 			   switch(a.id) {
 			   case 'getlist':     // 목록조회 
 				   // api controller 실행데이터 받아온다(fetch)
-			        fecth( a.href  )
+			        fetch( a.href  )
 				     .then( response => response.json() )
 				     .then( list     => {
 				    	 console.log(list)
@@ -152,6 +152,10 @@
 				   break;
 				   
 			   case 'post':     // 추가
+			       if( titleEl.value.trim() == ''  ) {
+			    	   alert('제목을 입력하세요')
+			    	   break;   
+			       }
 				   fetch( a.href , {
 					   method: 'POST',
 					   body: JSON.stringify({     // 서버 data 를 보낼떄 json 문자열로 전송
@@ -163,7 +167,11 @@
 					   },
 					 })
 					   .then((response) => response.json())
-					   .then((json) => console.log(json));
+					   .then((json) => {
+						   console.log(json)
+						   // textClear();
+						   aEls[0].click()
+					   });  // 추가완료
 				   break;	   
 			   }
 		   }
