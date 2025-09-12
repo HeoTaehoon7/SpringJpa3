@@ -44,6 +44,19 @@ public class ArticleService {
 		log.info(  "article:" + article ); 
 		return   article;
 	}
+
+	public Article delete(Long id) {
+		
+		// 삭재할 때는 미리 검색을 하고 cache memory 에서
+		Article   target  =  articleRepository.findById(id).orElse(null);
+		
+		if(target == null)
+			return  null;
+		
+		articleRepository.delete( target );
+		
+		return target;
+	}
 	
 }
 

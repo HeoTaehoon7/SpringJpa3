@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,6 +84,22 @@ public class ArticleApiController {
 		return  result;
 	}
 	
+	@DeleteMapping("/api/articles/{id}")
+	public  ResponseEntity<Article>  delete(
+		@PathVariable("id")  Long id		
+			) {
+		
+		Article  deleted  = articleService.delete(id);
+		
+		ResponseEntity<Article>  result = 
+			( deleted != null )	
+				? ResponseEntity.status(HttpStatus.OK).body( deleted )   // 200(ok) , 201(created)	  
+				: ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // 400	 (Error)	
+
+		return  result;
+		
+	}
+
 }
 
 
