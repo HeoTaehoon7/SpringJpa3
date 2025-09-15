@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -100,6 +101,22 @@ public class ArticleApiController {
 		
 	}
 
+	//  수정
+	//  Put   : 전체 데이터를 수정 -> 모든데이터가 필여 
+	//  Patch : 전체, 일부 데이터를 수정 
+	// @RequestBody : 넘어오는 정보는 json 구조이다
+	@PatchMapping("/api/articles")
+	public  ResponseEntity<Article>  update(
+		@RequestBody  Article    article	        // <- JSON.string
+			) {
+		
+		//articleService.update( article );
+		
+		return null;
+		
+	}
+	
+	
 }
 
 

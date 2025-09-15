@@ -57,6 +57,26 @@ public class ArticleService {
 		
 		return target;
 	}
+
+	public void update(Article article) {
+		
+		// 0. 수정할 자료의 id 
+		Long     id      =  article.getId();
+		
+		// 1. 수정할 데이터를 검색
+		Article  target  =  articleRepository.findById(id).orElse(null);
+		
+		// 2. target 이 null 이면
+		if( target == null ||  target.getId() != id  ) {
+			log.info("id:{} article:{}", id, article );
+			return null;  // 잘못된 요청 400
+		}
+		
+		// 3. 
+		// articleRepository.save(article);
+		
+		return article;
+	}
 	
 }
 

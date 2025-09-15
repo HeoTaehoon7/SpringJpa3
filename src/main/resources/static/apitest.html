@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -230,8 +230,38 @@
 					   textClear()
 					   alert('삭제되었습니다')
 					   aEls[0].click()
-				   }  )
-				   ;
+				   }  )				   
+				   break;
+				   
+			   // 수정
+			   // PATCH : 일부 데이터만 수정할때 
+			   // PUT   : 전체 데이터 수정
+			   case "patch":
+				   if(  idEl.value.trim() == ''  ) {
+					    alert(`수정할  ${idEl.value} 가 없습니다 `)
+						break;l
+				   }
+				   fetch(a.href, {
+					   method: 'PATCH',
+					   body: JSON.stringify({    // 넘겨줄 data
+					     id       : idEl.value,
+					     title    : titleEl.value,
+					     content  : contentEl.value					     
+					   }),
+					   headers: {
+					     'Content-type': 'application/json; charset=UTF-8',
+					   },
+					 })
+					 .then( (response) => {
+						 if( response.status == 400 ) {
+							 alert(`${idEl.value} 번 수정 실패 `)
+							 return null
+						 }
+					     return response.json()
+					 })
+					 .then((json) => {
+						 console.log(json) 
+					 });
 				   break;
 					   
 			   } // switch end
