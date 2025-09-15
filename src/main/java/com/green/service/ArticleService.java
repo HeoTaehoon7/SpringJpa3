@@ -1,5 +1,6 @@
 package com.green.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import com.green.dto.Article;
 import com.green.dto.ArticleDto;
 import com.green.repository.ArticleRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -76,6 +78,55 @@ public class ArticleService {
 		Article updated = articleRepository.save( article );
 		
 		return  updated;
+	}
+	
+	// 실패 케이스 : 예약처리 
+	// 테스트 : TalendApi 로 테스트 /api/transaction-test1 , POST
+	// 오류가 있어 모두 저장되면 안됨  -> ㅈ너부취소되어야 한다	
+	public List<Article> createArticleList(List<ArticleDto> dtos) {
+		
+		// 1.넘어온 Dto 들을 Article 엔티티 묶음으로 변환 
+		List<Article>  articleList = new ArrayList<>();
+		for ( ArticleDto dto : dtos) {
+			Article  article  =  dto.toEntity();
+			articleList.add( article );
+		}
+		
+		// 2. db 에 반복저장
+		for (Article article : articleList) {
+			articleRepository.save( article );
+		}
+		
+		// 3. 강제로 에러 발생 - 찾다가 없으면 예외발생 (id  :-1L) 
+		articleRepository.findById(-1L)
+	        .orElseThrow(
+	        	() -> new IllegalArgumentException("결재 실패") );  // 500 발생		
+		return articleList;
+	}
+	
+	// 결재 취소 성공 케이스 : 예약처리 
+	// 테스트 : TalendApi 로 테스트 /api/transaction-test1 , POST
+	// 오류가 있어 모두 저장되면 안됨  -> ㅈ너부취소되어야 한다	
+	@Transactional
+	public List<Article> createArticleList2(List<ArticleDto> dtos) {
+		
+		// 1.넘어온 Dto 들을 Article 엔티티 묶음으로 변환 
+		List<Article>  articleList = new ArrayList<>();
+		for ( ArticleDto dto : dtos) {
+			Article  article  =  dto.toEntity();
+			articleList.add( article );
+		}
+		
+		// 2. db 에 반복저장
+		for (Article article : articleList) {
+			articleRepository.save( article );
+		}
+		
+		// 3. 강제로 에러 발생 - 찾다가 없으면 예외발생 (id  :-1L) 
+		articleRepository.findById(-1L)
+		.orElseThrow(
+				() -> new IllegalArgumentException("결재 실패") );  // 500 발생		
+		return articleList;
 	}
 	
 }

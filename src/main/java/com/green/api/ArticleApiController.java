@@ -19,6 +19,7 @@ import com.green.dto.ArticleDto;
 import com.green.repository.ArticleRepository;
 import com.green.service.ArticleService;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -69,6 +70,7 @@ public class ArticleApiController {
 		return  result;
 	} 
 	
+	// 한줄 추가 
 	@PostMapping("/api/articles")
 	public ResponseEntity<Article> create( 
 		@RequestBody	ArticleDto  articleDto   ) {  
@@ -85,6 +87,7 @@ public class ArticleApiController {
 		return  result;
 	}
 	
+	// 삭제
 	@DeleteMapping("/api/articles/{id}")
 	public  ResponseEntity<Article>  delete(
 		@PathVariable("id")  Long id		
@@ -120,7 +123,57 @@ public class ArticleApiController {
 		
 	}
 	
+	// 3줄의 data
+	/*
+	[
+	   { "title" : "시간예약",  "content" : "1420"  },
+	   { "title" : "영화지정",  "content" : "캐대헌"  },
+	   { "title" : "자리 지정", "content" : "A2"
+	]
+    */
+	// /api/transaction-test1
+	// 3개의 데이터를 받아서 서비스에 점겨 저장결과를 받는다
+	@PostMapping("/api/transaction-test1")
+	public  ResponseEntity<List<Article>>  transaction1(
+		@RequestBody  List<ArticleDto>  dtos
+			) {
+		
+		List<Article>  createdList = articleService.createArticleList( dtos ); 
+		
+		ResponseEntity<List<Article>> result = 
+		   ( createdList != null )
+		     ? ResponseEntity.status(HttpStatus.OK).body( createdList )
+		     : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		    		 
+		return  result;
+	}
 	
+	// 3줄의 data
+		/*
+		[
+		   { "title" : "시간예약",  "content" : "1420"  },
+		   { "title" : "영화지정",  "content" : "캐대헌"  },
+		   { "title" : "자리 지정", "content" : "A2"
+		]
+		
+	    */
+		// /api/transaction-test1
+		// 3개의 데이터를 받아서 서비스에 점겨 저장결과를 받는다
+		@PostMapping("/api/transaction-test2")
+		public  ResponseEntity<List<Article>>  transaction2(
+			@RequestBody  List<ArticleDto>  dtos
+				) {
+			
+			List<Article>  createdList = articleService.createArticleList2( dtos ); 
+			
+			ResponseEntity<List<Article>> result = 
+			   ( createdList != null )
+			     ? ResponseEntity.status(HttpStatus.OK).body( createdList )
+			     : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			    		 
+			return  result;
+		}
+		
 }
 
 
