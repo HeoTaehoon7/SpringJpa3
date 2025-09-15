@@ -58,7 +58,7 @@ public class ArticleService {
 		return target;
 	}
 
-	public void update(Article article) {
+	public Article update(Article article) {
 		
 		// 0. 수정할 자료의 id 
 		Long     id      =  article.getId();
@@ -72,10 +72,10 @@ public class ArticleService {
 			return null;  // 잘못된 요청 400
 		}
 		
-		// 3. 
-		// articleRepository.save(article);
+		// 3. 업데이트 ( JPA -> .save())
+		Article updated = articleRepository.save( article );
 		
-		return article;
+		return  updated;
 	}
 	
 }

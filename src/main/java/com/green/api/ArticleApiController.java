@@ -110,9 +110,13 @@ public class ArticleApiController {
 		@RequestBody  Article    article	        // <- JSON.string
 			) {
 		
-		//articleService.update( article );
-		
-		return null;
+		Article updated =  articleService.update( article );
+		ResponseEntity<Article>  result =
+			(updated != null) 
+			? ResponseEntity.status(HttpStatus.OK).body( updated )
+			: ResponseEntity.status(HttpStatus.BAD_REQUEST).build();  // 400
+					
+		return result;
 		
 	}
 	
